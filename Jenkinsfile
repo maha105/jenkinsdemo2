@@ -5,7 +5,6 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                echo 'Getting source code from repository...'
                 checkout scm
             }
         }
@@ -18,18 +17,17 @@ pipeline {
 
         stage('Test') {
             steps {
-                echo 'Testing website files...'
-                sh 'ls -la'
+                bat 'dir'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deploying website...'
-
-                sh '''
-                sudo mkdir -p /var/www/html/bankapp
-                sudo cp -r * /var/www/html/bankapp/
+                bat '''
+                if not exist C:\\deploy\\bankapp mkdir C:\\deploy\\bankapp
+                copy index1.html C:\\deploy\\bankapp
+                copy style1.css C:\\deploy\\bankapp
+                copy script1.js C:\\deploy\\bankapp
                 '''
             }
         }
@@ -37,7 +35,7 @@ pipeline {
 
     post {
         success {
-            echo 'Website deployed successfully!'
+            echo 'Deployment successful!'
         }
 
         failure {
