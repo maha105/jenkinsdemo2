@@ -4,24 +4,27 @@ pipeline {
 
     stages {
 
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
         stage('Build') {
             steps {
-                echo 'Build Started'
+                echo 'Build Successful'
             }
         }
 
         stage('Test') {
             steps {
-                bat 'if exist index1.html echo Test Passed'
+                bat 'if exist index.html echo Test Passed'
             }
         }
 
         stage('Deploy') {
             steps {
-                bat '''
-                if not exist C:\\DeployFolder mkdir C:\\DeployFolder
-                xcopy * C:\\DeployFolder\\ /E /Y
-                '''
+                bat 'firebase deploy --non-interactive'
             }
         }
     }
@@ -29,10 +32,6 @@ pipeline {
     post {
         success {
             echo 'Deployment Successful'
-        }
-
-        failure {
-            echo 'Deployment Failed'
         }
     }
 }
