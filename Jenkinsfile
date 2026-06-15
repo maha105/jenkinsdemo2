@@ -1,33 +1,26 @@
 pipeline {
+
     agent any
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
         stage('Build') {
             steps {
-                echo 'Building website...'
+                echo 'Build Started'
             }
         }
 
         stage('Test') {
             steps {
-                bat 'dir'
+                bat 'if exist index1.html echo Test Passed'
             }
         }
 
         stage('Deploy') {
             steps {
                 bat '''
-                if not exist C:\\deploy\\bankapp mkdir C:\\deploy\\bankapp
-                copy index1.html C:\\deploy\\bankapp
-                copy style1.css C:\\deploy\\bankapp
-                copy script1.js C:\\deploy\\bankapp
+                if not exist C:\\DeployFolder mkdir C:\\DeployFolder
+                xcopy * C:\\DeployFolder\\ /E /Y
                 '''
             }
         }
@@ -35,11 +28,11 @@ pipeline {
 
     post {
         success {
-            echo 'Deployment successful!'
+            echo 'Deployment Successful'
         }
 
         failure {
-            echo 'Deployment failed!'
+            echo 'Deployment Failed'
         }
     }
 }
