@@ -16,7 +16,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                bat 'firebase deploy --non-interactive --token %FIREBASE_TOKEN%'
+                bat 'npx firebase-tools deploy --non-interactive --token %FIREBASE_TOKEN%'
             }
         }
     }
@@ -25,6 +25,7 @@ pipeline {
         success {
             echo 'Deployment Successful'
         }
+
         failure {
             echo 'Deployment Failed'
         }
